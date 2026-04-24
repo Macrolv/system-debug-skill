@@ -4,6 +4,68 @@ A standalone Agent Skill / Claude Skill for systematic root-cause debugging.
 
 `system-debug` helps AI coding assistants stop guessing, trace failures back to their source, verify one hypothesis at a time, and only claim success after a minimal verification artifact proves the fix.
 
+## Install with one command
+
+### macOS / Linux / WSL
+
+Personal install for all Claude Code projects:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Macrolv/system-debug-skill/main/scripts/install-remote.sh | bash
+```
+
+Project-local install, run from your project root:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Macrolv/system-debug-skill/main/scripts/install-remote.sh | bash -s -- --project .
+```
+
+Replace an existing install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Macrolv/system-debug-skill/main/scripts/install-remote.sh | bash -s -- --user --force
+```
+
+Install a specific branch or tag:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Macrolv/system-debug-skill/main/scripts/install-remote.sh | bash -s -- --ref v1.0.0 --force
+```
+
+### Windows PowerShell
+
+Personal install for all Claude Code projects:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$u='https://raw.githubusercontent.com/Macrolv/system-debug-skill/main/scripts/install-remote.ps1'; $p=Join-Path $env:TEMP 'install-system-debug.ps1'; Invoke-WebRequest -UseBasicParsing $u -OutFile $p; & $p -Scope User"
+```
+
+Project-local install:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$u='https://raw.githubusercontent.com/Macrolv/system-debug-skill/main/scripts/install-remote.ps1'; $p=Join-Path $env:TEMP 'install-system-debug.ps1'; Invoke-WebRequest -UseBasicParsing $u -OutFile $p; & $p -Scope Project -ProjectPath 'C:\path\to\project'"
+```
+
+Replace an existing install:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$u='https://raw.githubusercontent.com/Macrolv/system-debug-skill/main/scripts/install-remote.ps1'; $p=Join-Path $env:TEMP 'install-system-debug.ps1'; Invoke-WebRequest -UseBasicParsing $u -OutFile $p; & $p -Scope User -Force"
+```
+
+Verify installation:
+
+```text
+~/.claude/skills/system-debug/SKILL.md                  # macOS/Linux personal install
+.claude/skills/system-debug/SKILL.md                    # project install
+%USERPROFILE%\.claude\skills\system-debug\SKILL.md    # Windows personal install
+```
+
+Then try:
+
+```text
+/system-debug diagnose why this test is failing
+```
+
 ## What this skill is for
 
 Use it for:
@@ -21,9 +83,11 @@ The skill supports three modes:
 - **Full Debug Mode** — complete root-cause investigation before proposing or applying a fix.
 - **Incident Mitigation Mode** — apply reversible containment for urgent production/data/security risk, then continue the root-cause investigation.
 
-## Quick install: Claude Code
+## Install from release zip
 
-### Personal install, all projects
+Download `system-debug.zip` from the latest GitHub Release.
+
+### Claude Code: personal install
 
 ```bash
 unzip system-debug.zip -d ~/.claude/skills
@@ -35,7 +99,7 @@ Expected result:
 ~/.claude/skills/system-debug/SKILL.md
 ```
 
-### Project install, current repo only
+### Claude Code: project install
 
 ```bash
 mkdir -p .claude/skills
@@ -48,21 +112,7 @@ Expected result:
 .claude/skills/system-debug/SKILL.md
 ```
 
-### Install from cloned repo
-
-```bash
-git clone https://github.com/<owner>/system-debug-skill.git
-cd system-debug-skill
-./install.sh --user
-```
-
-For project-local install:
-
-```bash
-./install.sh --project /path/to/your/project
-```
-
-## Quick install: Claude.ai upload
+### Claude.ai upload
 
 Upload `system-debug.zip` as a custom Skill. The zip is packaged with the required root folder:
 
@@ -79,6 +129,26 @@ After uploading, enable the skill and test it with:
 
 ```text
 Use system-debug to diagnose this failing test before changing code.
+```
+
+## Install from cloned repo
+
+```bash
+git clone https://github.com/Macrolv/system-debug-skill.git
+cd system-debug-skill
+./install.sh --user
+```
+
+For project-local install:
+
+```bash
+./install.sh --project /path/to/your/project
+```
+
+Windows PowerShell:
+
+```powershell
+.\install.ps1 -Scope User
 ```
 
 ## Manual install by copy
@@ -136,9 +206,11 @@ system-debug-skill/
 ├── system-debug/          # actual skill folder to install
 │   ├── SKILL.md
 │   └── ...
-├── install.sh             # macOS/Linux installer for Claude Code
-├── install.ps1            # Windows PowerShell installer for Claude Code
+├── install.sh             # macOS/Linux local installer for Claude Code
+├── install.ps1            # Windows PowerShell local installer for Claude Code
 ├── scripts/
+│   ├── install-remote.sh  # macOS/Linux one-line installer
+│   ├── install-remote.ps1 # Windows one-line installer
 │   ├── validate.sh
 │   └── package.sh
 ├── examples/
