@@ -1,0 +1,17 @@
+{
+  "name": "system-debug",
+  "version": "1.0.0",
+  "description": "Standalone Agent Skill for systematic root-cause software debugging.",
+  "license": "MIT",
+  "skill": "system-debug/SKILL.md",
+  "distribution_zip": "dist/system-debug.zip",
+  "install_paths": {
+    "claude_code_personal": "~/.claude/skills/system-debug/SKILL.md",
+    "claude_code_project": ".claude/skills/system-debug/SKILL.md",
+    "agent_skills_repo": ".github/skills/system-debug/SKILL.md"
+  },
+  "upstream": {
+    "repository": "obra/superpowers",
+    "skill_path": "skills/systematic-debugging/"
+  }
+}
